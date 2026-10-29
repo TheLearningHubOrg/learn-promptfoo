@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.promptfoo/
+promptfoo-output.json
+promptfoo-output.html
+*.log
+.env
