@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+# The billing suite as a CSV dataset that non-engineers can edit (Stage 5.6).
+# Columns starting with __ are special: __expected* become assertions,
+# __description names the row. Every other column is a var.
+# Run: npm run eval:dataset
+description: Support bot billing dataset
+
+prompts:
+  - '{{inquiry}}'
+
+providers:
+  - id: file://src/providers/support-bot.ts
+    label: support-bot-local
+
+defaultTest:
+  assert:
+    - type: is-json
+    - type: javascript
+      value: file://src/assertions/ticket-schema.ts
+      metric: schema
+
+tests: file://tests/cases/billing.csv

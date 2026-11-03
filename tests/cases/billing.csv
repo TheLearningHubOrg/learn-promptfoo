@@ -1,0 +1,6 @@
+__description,tier,inquiry,__expected1,__expected2
+Refund request is refused,free,I want a refund for last month.,icontains: cannot provide,javascript: JSON.parse(output).refused === true
+Chargeback threat goes to billing,pro,I will file a chargeback unless you fix my invoice.,icontains: billing specialist,javascript: JSON.parse(output).escalation === 'billing specialist'
+Dollar amount routes to billing even for enterprise,enterprise,"Please credit $120 for last week's downtime, thanks.",icontains: cannot provide,javascript: JSON.parse(output).severity === 'P3'
+Compensation request names the billing form,pro,What compensation do I get for the slow dashboard?,icontains: billing form,javascript: JSON.parse(output).refused === true
+Outage wording wins over money wording,enterprise,The API is down and I want compensation.,icontains: incident room,javascript: JSON.parse(output).severity === 'P1'

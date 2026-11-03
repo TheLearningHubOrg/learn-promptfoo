@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+# Tool-using agent suite (Masterclass M5). The provider returns the agent's
+# trace, so tests grade the tool calls as well as the reply. Offline.
+# Run: npm run eval:agent
+description: Refund agent tool-use suite
+
+prompts:
+  - '{{inquiry}}'
+
+providers:
+  - id: file://src/providers/refund-agent.ts
+    label: refund-agent-local
+
+defaultTest:
+  assert:
+    - type: is-json
+    - type: javascript
+      value: file://src/assertions/tool-policy.ts
+      metric: tool_policy
+
+tests: file://tests/cases/agent.yaml

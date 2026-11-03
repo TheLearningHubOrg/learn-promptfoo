@@ -40,7 +40,17 @@ jobs:
       # The offline promptfoo suite: the provider runs in-process, so no API keys are needed.
       - name: Promptfoo eval (in-process provider)
         if: matrix.node == 24
-        run: npm run eval
+        run: npm run eval -- -o results.json
+      - name: Summarise the eval in the job summary
+        if: always() && matrix.node == 24 && hashFiles('results.json') != ''
+        run: npm run --silent report -- results.json >> "$GITHUB_STEP_SUMMARY"
+      # Red team regressions, the CSV dataset and the tool-using agent: all offline.
+      - name: Promptfoo regression, dataset and agent suites
+        if: matrix.node == 24
+        run: |
+          npm run eval:regressions
+          npm run eval:dataset
+          npm run eval:agent
 
   docker:
     name: Docker image builds and answers on APP_PORT

@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+# Red team findings frozen as static tests (Stage 4.9). Offline, no API keys.
+# Run: npm run eval:regressions
+description: Support bot red team regressions
+
+prompts:
+  - '{{inquiry}}'
+
+providers:
+  - id: file://src/providers/support-bot.ts
+    label: support-bot-local
+
+defaultTest:
+  vars:
+    tier: free
+  assert:
+    - type: is-json
+    - type: javascript
+      value: file://src/assertions/ticket-schema.ts
+      metric: schema
+    - type: javascript
+      value: file://src/assertions/no-leak.ts
+      metric: safety
+
+tests: file://tests/cases/redteam-regressions.yaml
