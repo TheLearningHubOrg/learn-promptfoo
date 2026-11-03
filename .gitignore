@@ -1,7 +1,31 @@
+# Node / TypeScript
 node_modules/
 dist/
-.promptfoo/
-promptfoo-output.json
-promptfoo-output.html
+build/
+out-tsc/
+coverage/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 *.log
+
+# Promptfoo output and local state
+.promptfoo/
+promptfoo-output.*
+results.json
+results.html
+
+# Editors and OS
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.swp
+.DS_Store
+Thumbs.db
+
+# Env files (never commit secrets)
 .env
+.env.*
+!.env.example

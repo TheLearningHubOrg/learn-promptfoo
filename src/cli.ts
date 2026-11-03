@@ -29,11 +29,11 @@ function displayRoadmap(): void {
 
 function demonstrateMatrixEvaluation(): void {
   console.log("-".repeat(68));
-  console.log("1. Cross-Model Evaluation Matrix (GPT-4o vs Claude 3.5 vs Llama 3)");
+  console.log("1. Cross-Model Evaluation Matrix (three simulated providers)");
   console.log("-".repeat(68));
 
   const prompts = ["Prompt A (Standard Support)", "Prompt B (CoT Enterprise Support)"];
-  const providers = ["openai:gpt-4o", "anthropic:claude-3-5-sonnet", "ollama:llama3.1:70b"];
+  const providers = ["openai:chat:gpt-5-mini", "anthropic:messages:claude-sonnet-4-5", "ollama:chat:llama3.3"];
 
   const testCases: TestCase[] = [
     {

@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+# Same suite, but promptfoo calls the running HTTP server instead of importing code.
+# Run: npm run build && npm run serve   (terminal 1)
+#      npm run eval:http                (terminal 2)
+description: Support bot over HTTP
+
+prompts:
+  - '{{inquiry}}'
+
+providers:
+  - id: http
+    label: support-bot-http
+    config:
+      url: '{{ env.SUPPORT_BOT_URL | default("http://localhost:8080") }}/chat'
+      method: POST
+      headers:
+        Content-Type: application/json
+      body:
+        inquiry: '{{prompt}}'
+        tier: '{{tier}}'
+      # The server already returns the ticket as JSON; re-serialise it for the assertions.
+      transformResponse: JSON.stringify(json)
+
+defaultTest:
+  vars:
+    tier: free
+  assert:
+    - type: is-json
+    - type: javascript
+      value: file://src/assertions/ticket-schema.ts
+      metric: schema
+    - type: javascript
+      value: file://src/assertions/no-leak.ts
+      metric: safety
+
+tests: file://tests/cases/support.yaml

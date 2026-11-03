@@ -1,21 +1,26 @@
 {
   "name": "learn-promptfoo",
   "version": "1.0.0",
-  "description": "Production LLM Automated Testing, Deterministic Assertions, OWASP Red Teaming & CI/CD Quality Gates",
+  "description": "Learn Promptfoo: LLM evaluation, assertions, red teaming and CI quality gates, with a runnable TypeScript starter project",
+  "private": true,
   "type": "module",
-  "main": "dist/index.js",
-  "scripts": {
-    "test": "node --experimental-strip-types --test tests/promptfoo.test.ts",
-    "eval": "node --experimental-strip-types src/cli.ts",
-    "start": "node --experimental-strip-types src/cli.ts"
-  },
-  "keywords": ["promptfoo", "llm-evaluation", "red-teaming", "ci-cd", "quality-gates"],
-  "author": "The Learning Hub Team",
   "license": "MIT",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test \"tests/**/*.test.ts\"",
+    "eval": "npx --yes promptfoo@0.125.1 eval -c promptfooconfig.yaml --no-cache",
+    "eval:http": "npx --yes promptfoo@0.125.1 eval -c promptfooconfig.http.yaml --no-cache",
+    "view": "npx --yes promptfoo@0.125.1 view",
+    "start": "node dist/server.js",
+    "dev": "node --watch src/server.ts",
+    "demo": "node src/cli.ts"
+  },
   "devDependencies": {
-    "@types/node": "^22.0.0",
-    "tsx": "^4.19.0",
-    "typescript": "^5.5.0",
-    "vitest": "^2.0.0"
+    "@types/node": "^24.10.0",
+    "typescript": "^7.0.2"
   }
 }

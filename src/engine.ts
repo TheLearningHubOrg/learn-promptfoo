@@ -1,7 +1,7 @@
 /**
- * Production-grade Promptfoo Automated Test Engine & OWASP Red Teaming Scanner.
- * Implements deterministic assertions, red teaming adversarial probes,
- * cross-model evaluation matrices, and CI/CD quality gate enforcement.
+ * A miniature re-implementation of how Promptfoo grades an evaluation matrix.
+ * It exists to teach the mechanics (assertions, scores, per-provider summaries);
+ * the real suite in promptfooconfig.yaml uses Promptfoo itself.
  */
 
 export interface Assertion {
@@ -134,8 +134,8 @@ export class AssertionEngine {
         try {
           JSON.parse(text);
           return { pass: true, score: 1.0, reason: "Output is valid JSON syntax", assertionType: type };
-        } catch (e: any) {
-          return { pass: false, score: 0.0, reason: `Invalid JSON syntax: ${e.message}`, assertionType: type };
+        } catch (e) {
+          return { pass: false, score: 0.0, reason: `Invalid JSON syntax: ${(e as Error).message}`, assertionType: type };
         }
       }
 
@@ -175,7 +175,8 @@ export class AssertionEngine {
       }
 
       default:
-        return { pass: true, score: 1.0, reason: `Unknown assertion type '${type}' default pass`, assertionType: type };
+        // Fail closed: a typo in an assertion type must never turn into a silent pass.
+        return { pass: false, score: 0.0, reason: `Unknown assertion type '${type}'`, assertionType: type };
     }
   }
 }
